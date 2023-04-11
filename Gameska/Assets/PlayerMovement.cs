@@ -48,4 +48,14 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
+
+    public void MovementDisable()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void MovementEnable()
+    {
+        gameObject.SetActive(true);
+    }
 }
