@@ -5,6 +5,9 @@ public class PlayerCollision : MonoBehaviour
     public HealthBarScript healthBar;
     public GameOverScript GameOverScript;
     public PlayerMovement Movement;
+    public GameObject pumpkin;
+    
+    
 
     public int maxHealth = 100;
     public int currentHealth;
@@ -15,6 +18,8 @@ public class PlayerCollision : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
         GameOverScript.Vypnout();  //  vypina gameover screen
         Movement.MovementEnable();  //zapina movement script
+       
+
     }
 
     void Update()
@@ -32,6 +37,11 @@ public class PlayerCollision : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
     }
+    void Heal(int heal)
+    {
+        currentHealth += heal;
+        healthBar.SetHealth(currentHealth);
+    }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -39,6 +49,15 @@ public class PlayerCollision : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             TakeDamage(13);
+        }
+        if (collision.gameObject.CompareTag("ObstacleIK"))
+        {
+            TakeDamage(100);
+        }
+        if (collision.gameObject.CompareTag("HealPumpkin"))
+        {
+            Heal(25);
+            pumpkin.SetActive(false);
         }
 
     }
