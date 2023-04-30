@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameOverScript : MonoBehaviour
 {
+    public PlayerCollision playerCollision;
+
     public void Zapnout() 
     {
         gameObject.SetActive(true);
@@ -19,6 +21,6 @@ public class GameOverScript : MonoBehaviour
 
     public void RestartButton()
     {
-        SceneManager.LoadScene("546515");
+        playerCollision.Respawn();
     }
 }

@@ -6,6 +6,12 @@ public class PlayerCollision : MonoBehaviour
     public GameOverScript GameOverScript;
     public PlayerMovement Movement;
     public GameObject pumpkin;
+    public BackgroundTrigger trigger;
+
+
+    public Vector3 respawnPoint;
+    bool CheckpointTrigger = false;
+    
     
     
 
@@ -14,12 +20,13 @@ public class PlayerCollision : MonoBehaviour
 
     void Start()
     {
+        respawnPoint = transform.position;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         GameOverScript.Vypnout();  //  vypina gameover screen
         Movement.MovementEnable();  //zapina movement script
-       
 
+        //trigger.BackgroundON();
     }
 
     void Update()
@@ -29,6 +36,7 @@ public class PlayerCollision : MonoBehaviour
             GameOverScript.Zapnout();  //zapne gameover screen
             Movement.MovementDisable(); //vypne movement script
         }
+        
     }
 
 
@@ -62,5 +70,40 @@ public class PlayerCollision : MonoBehaviour
 
     }
 
-    
+    public void Respawn()
+    {
+        transform.position = respawnPoint;
+        GameOverScript.Vypnout();  //  vypina gameover screen
+        Movement.MovementEnable();  //zapina movement script
+        if (CheckpointTrigger == true)
+        {
+            currentHealth = 50;
+            healthBar.SetHealth(currentHealth);
+        }
+        else
+        {
+            currentHealth = maxHealth;
+            healthBar.SetMaxHealth(maxHealth);
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Checkpoint"))
+        {
+            respawnPoint = transform.position;
+            CheckpointTrigger = true;
+        }
+
+        //if (collision.gameObject.CompareTag("BackgroundOFF"))
+        //{
+        //    trigger.BackgroundOFF();
+        //}
+        //if (collision.gameObject.CompareTag("BackgroundON"))
+        //{
+        //    trigger.BackgroundON();
+        //}
+    }
+
+
 }
