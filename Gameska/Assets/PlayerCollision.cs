@@ -7,6 +7,7 @@ public class PlayerCollision : MonoBehaviour
     public PlayerMovement Movement;
     public GameObject pumpkin;
     public BackgroundTrigger trigger;
+    public neco GameFinish;
 
 
     public Vector3 respawnPoint;
@@ -20,6 +21,7 @@ public class PlayerCollision : MonoBehaviour
 
     void Start()
     {
+        GameFinish.GameFinishedVypnout();
         respawnPoint = transform.position;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -35,6 +37,11 @@ public class PlayerCollision : MonoBehaviour
         {
             GameOverScript.Zapnout();  //zapne gameover screen
             Movement.MovementDisable(); //vypne movement script
+        }
+        if (currentHealth > 100)
+        {
+            currentHealth = maxHealth;
+            healthBar.SetMaxHealth(maxHealth);
         }
         
     }
@@ -95,14 +102,12 @@ public class PlayerCollision : MonoBehaviour
             CheckpointTrigger = true;
         }
 
-        //if (collision.gameObject.CompareTag("BackgroundOFF"))
-        //{
-        //    trigger.BackgroundOFF();
-        //}
-        //if (collision.gameObject.CompareTag("BackgroundON"))
-        //{
-        //    trigger.BackgroundON();
-        //}
+        if (collision.gameObject.CompareTag("GameFinish"))
+        {
+            GameFinish.GameFinishedZapnout();
+            Movement.MovementDisable();
+
+        }
     }
 
 
